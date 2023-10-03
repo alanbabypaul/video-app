@@ -14,12 +14,12 @@ function Home() {
       <Link to={'/watch-historys'} className='text-decoration-none text-white'>Watch History</Link>
     </div>
 
-    <div className="container mt-5 mb-5 d-flex justify-content-between align-items-center">
-      <div className="all-videos">
+    <div className="container-fulid w-100 mt-5 mb-5 d-flex justify-content-between align-items-center">
+      <div className="all-videos col-lg-8">
         <h3>All Videos</h3>
         <View />
       </div>
-      <div className="category">
+      <div className="category col-lg-4">
         <Category />
       </div>
     </div>
