@@ -14,7 +14,7 @@ function Home() {
       <Link to={'/watch-historys'} className='text-decoration-none text-white'>Watch History</Link>
     </div>
 
-    <div className="container-fulid w-100 mt-5 mb-5 d-flex justify-content-between align-items-center">
+    <div className="container-fulid w-100 mt-5 mb-5 d-flex justify-content-between">
       <div className="all-videos col-lg-8">
         <h3>All Videos</h3>
         <View />

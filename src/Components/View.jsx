@@ -9,15 +9,6 @@ function View() {
       <Col sm={12} md={6} lg={4} xl={3}>
         <VideoCard />
       </Col>
-      <Col sm={12} md={6} lg={4} xl={3}>
-        <VideoCard />
-      </Col>
-      <Col sm={12} md={6} lg={4} xl={3}>
-        <VideoCard />
-      </Col>
-      <Col sm={12} md={6} lg={4} xl={3}>
-        <VideoCard />
-      </Col>
     </Row>
     </>
   )
