@@ -1,12 +1,32 @@
+import { uploadVideo } from '../services/allAPI';
 import { React, useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
 
 
 function Add() {
   const [show, setShow] = useState(false);
-
+  const [video,setVideo] = useState({
+    id:"",caption:"",url:"",embedLink:""
+  })
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const getEmbedLink=(e)=>{
+    const {value} =e.target
+    const link = `http://www.youtube.com/embed/${value.slice(-11)}`
+    setVideo({...video,embedLink:link})
+  }
+  const handleUpload= async (e)=>{
+    const {id,caption,url,embedLink} = video
+    if(!id || !caption || !url || !embedLink)
+    {
+      alert("plz fill the all form");
+    }else{
+      const response = await uploadVideo(video)
+      console.log(response);
+    }
+  }
+  console.log(video);
 
   return (
     <>
@@ -27,16 +47,16 @@ function Add() {
           <p>Please Fill the Following Details</p>
           <Form className='border border-secondary rounded p-3'>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Enter Video Id" />
+              <Form.Control type="text" placeholder="Enter Video Id" onChange={(e)=>setVideo({...video,id:e.target.value})} />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Enter Video Caption" />
+              <Form.Control type="text" placeholder="Enter Video Caption" onChange={(e)=>setVideo({...video,caption:e.target.value})}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Enter Video Image URL" />
+              <Form.Control type="text" placeholder="Enter Video Image URL" onChange={(e)=>setVideo({...video,url:e.target.value})}/>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Control type="text" placeholder="Enter YouTube Video Link" />
+              <Form.Control type="text" placeholder="Enter YouTube Video Link" onChange={getEmbedLink}/>
             </Form.Group>
           </Form>
         </Modal.Body>
@@ -44,7 +64,7 @@ function Add() {
           <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button variant="primary">Upload</Button>
+          <Button variant="primary" onClick={handleUpload} >Upload</Button>
         </Modal.Footer>
       </Modal>
     </>
