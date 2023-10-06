@@ -13,9 +13,15 @@ function Add() {
 
   const getEmbedLink=(e)=>{
     const {value} =e.target
-    const link = `http://www.youtube.com/embed/${value.slice(-11)}`
-    setVideo({...video,embedLink:link})
+    if(value){
+      const link = `http://www.youtube.com/embed/${value.slice(-11)}`
+      setVideo({...video,embedLink:link})
+    }else{
+      setVideo({...video,embedLink:""})
+    }
+    
   }
+  console.log(video);
   const handleUpload= async (e)=>{
     const {id,caption,url,embedLink} = video
     if(!id || !caption || !url || !embedLink)
@@ -24,6 +30,13 @@ function Add() {
     }else{
       const response = await uploadVideo(video)
       console.log(response);
+      if(response.status>=200 && response.status<300){
+        alert(`'${response.data.caption}' video uploaded successfully`)
+        handleClose()
+      }else{
+        console.log(response);
+        alert("Can not perform the action......")
+      }
     }
   }
   console.log(video);
