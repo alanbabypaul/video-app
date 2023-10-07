@@ -18,3 +18,8 @@ export const getAVideo = async (id)=>{
     // make a get http request to http://localhost:4000/video to get a video from json server and return response to VideoCard component
     return await commomAPI("GET",`${serverURL}/video/${id}`,"")
 } 
+// get allvdeos from json server
+export const deleteAVideo = async (id)=>{
+    // make a get http request to http://localhost:4000/video to get a video from json server and return response to VideoCard component
+    return await commomAPI("DELETE",`${serverURL}/video/${id}`,{})
+} 

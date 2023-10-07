@@ -3,7 +3,7 @@ import { React, useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
 
 
-function Add() {
+function Add({setuploadVideoServerResponse}) {
   const [show, setShow] = useState(false);
   const [video,setVideo] = useState({
     id:"",caption:"",url:"",embedLink:""
@@ -28,10 +28,14 @@ function Add() {
     {
       alert("plz fill the all form");
     }else{
+      // make API
       const response = await uploadVideo(video)
       console.log(response);
       if(response.status>=200 && response.status<300){
+        // set server response
+        setuploadVideoServerResponse(response.data)
         alert(`'${response.data.caption}' video uploaded successfully`)
+        // model hide
         handleClose()
       }else{
         console.log(response);

@@ -1,21 +1,28 @@
 import React,{useState} from 'react'
 import {Card,Modal} from 'react-bootstrap';
+import { deleteAVideo } from '../services/allAPI';
 
 
-function VideoCard({displayData}) {
+function VideoCard({displayData,setdeleteVideoStatus}) {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  // delete video
+  const removeVideo = async (id)=>{
+    const response = await deleteAVideo(id)
+    console.log(response);
+    setdeleteVideoStatus(true)
+  }
 
   return (
     <>
-    <Card>
+    <Card className='m-2'>
       <Card.Img variant="top" height={'180px'} onClick={handleShow} src={displayData?.url} />
       <Card.Body>
         <Card.Title className='d-flex justify-content-between align-items-center'>
           <h6>{displayData?.caption}</h6>
-          <button className='btn'><i class="fa-solid fa-trash text-danger"></i></button>
+          <button className='btn' onClick={()=>removeVideo(displayData?.id)}><i class="fa-solid fa-trash text-danger"></i></button>
         </Card.Title>
       </Card.Body>
     </Card>
