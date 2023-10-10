@@ -14,6 +14,7 @@ function View({uploadVideoServerResponse}) {
 
   useEffect(() => {
     getAllUploadedVideo()
+    setdeleteVideoStatus(false)
   }, [uploadVideoServerResponse,deleteVideoStatus])
   console.log(allVideos);
   return (

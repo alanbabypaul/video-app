@@ -1,6 +1,8 @@
 import { uploadVideo } from '../services/allAPI';
 import { React, useState } from 'react'
 import { Button, Modal, Form } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 function Add({setuploadVideoServerResponse}) {
@@ -26,7 +28,7 @@ function Add({setuploadVideoServerResponse}) {
     const {id,caption,url,embedLink} = video
     if(!id || !caption || !url || !embedLink)
     {
-      alert("plz fill the all form");
+      toast.warning("plz fill the all form");
     }else{
       // make API
       const response = await uploadVideo(video)
@@ -34,12 +36,16 @@ function Add({setuploadVideoServerResponse}) {
       if(response.status>=200 && response.status<300){
         // set server response
         setuploadVideoServerResponse(response.data)
-        alert(`'${response.data.caption}' video uploaded successfully`)
+        toast.success(`'${response.data.caption}' video uploaded successfully`)
         // model hide
+        // video
+        setVideo({
+          id:"",caption:"",url:"",embedLink:""
+        })
         handleClose()
       }else{
         console.log(response);
-        alert("Can not perform the action......")
+        toast.error("Can not perform the action......")
       }
     }
   }
@@ -84,6 +90,11 @@ function Add({setuploadVideoServerResponse}) {
           <Button variant="primary" onClick={handleUpload} >Upload</Button>
         </Modal.Footer>
       </Modal>
+      <ToastContainer 
+      position='top-center'
+      theme='colored'
+      autoClose={2000}
+      />
     </>
   )
 }
