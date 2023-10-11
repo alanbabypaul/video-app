@@ -1,8 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap';
+import { getAllHistory } from '../services/allAPI';
 
 function WatchHistory() {
+  const [history, setHistory] = useState([])
+  const handleHistory = async () => {
+    const { data } = await getAllHistory()
+    setHistory(data);
+  }
+  console.log(history);
+  useEffect(() => {
+    handleHistory()
+  }, [])
   return (
     <>
       <div className="container mt-5 mb-5 d-flex justify-content-between align-items-center">
@@ -16,6 +26,7 @@ function WatchHistory() {
 
         <Table striped bordered hover>
           <thead>
+
             <tr>
               <th>#</th>
               <th>Caption</th>
@@ -24,12 +35,16 @@ function WatchHistory() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>https://youtu.be/MlnICsy5mmU</td>
-              <td>I6/04/23</td>
-            </tr>
+            {
+              history ? history?.map((item, index) => (
+                <tr key={index}>
+                  <td>{index+1}</td>
+                  <td>{item?.caption}</td>
+                  <td><a href={item?.embedLink} target='_black'>{item?.embedLink}</a></td>
+                  <td>{item?.timeStamp}</td>
+                </tr>
+              )):<p className='fw-bolder fs-5 text-danger'>Nothing to Display!!!!!</p>
+            }
           </tbody>
         </Table>
       </div>

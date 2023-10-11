@@ -34,3 +34,21 @@ export const getAllHistory = async ()=>{
     // make a post http request to http://localhost:4000/history to grt video history form json server and return response to watch History component
     return await commomAPI("GET",`${serverURL}/history`,"")
 } 
+// add Category
+export const addCategory = async (reqBody)=>{
+    // make a post http request to http://localhost:4000/categories to add video in json server and return response to categories component
+    return await commomAPI("POST",`${serverURL}/categories`,reqBody)
+} 
+
+// getAllCategory
+export const getAllCategory = async ()=>{
+    // make a get http request to http://localhost:4000/categories to get all video from json server and return response to categories component
+    return await commomAPI("GET",`${serverURL}/categories`,"")
+} 
+
+
+// get allvdeos from json server
+export const deleteCategory = async (id)=>{
+    // make a get http request to http://localhost:4000/categories to get a video from json server and return response to categories component
+    return await commomAPI("DELETE",`${serverURL}/categories/${id}`,{})
+} 
