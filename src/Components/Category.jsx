@@ -1,9 +1,11 @@
 import { React, useEffect, useState } from 'react'
-import { Button, Modal, Form } from 'react-bootstrap';
+import { Button, Modal, Form,Row,Col } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { addCategory } from '../services/allAPI';
+import { addCategory, getAVideo, updateCategory } from '../services/allAPI';
 import { getAllCategory } from '../services/allAPI';
+import { deleteCategory } from '../services/allAPI';
+import VideoCard from './VideoCard';
 
 function Category() {
   const [CategoryName,setCategoryName] =useState("")
@@ -15,14 +17,16 @@ function Category() {
   const handleAddCategory = async () =>{
     if(CategoryName){
       let body={
-        CategoryName
+        CategoryName,allVideos:[]
       }
       const response = await addCategory(body)
       if(response.status>=200 && response.status<300){
-        // 
+        // hide modal
         handleClose()
-
+        // rest state
         setCategoryName("")
+        // get category
+        getCategory()
       }else{
         toast.error("Operation failde plz try after some time")
       }
@@ -35,10 +39,35 @@ function Category() {
     const {data} = await getAllCategory()
     setallCategories(data);
   }
+
+  const handleDelete = async (id)=>{
+    await deleteCategory(id)
+    getCategory()
+  }
   console.log(allCategories);
   useEffect(()=>{
     getCategory()
   },[])
+
+  const dargOver=(e)=>{
+    console.log("Video drag over category")
+    e.preventDefault()
+  }
+
+  const videoDrop = async (e,CategoryId)=>{
+    // console.log("video Dropped inside category Id:"+CategoryId);
+    const videoId = e.dataTransfer.getData("videoId")
+    // console.log("Video Card Id:",videoId);
+    // get Video details
+    const {data} =await getAVideo(videoId)
+    // 
+    const selectedCategory = allCategories?.find(item=>item.id===CategoryId)
+    selectedCategory.allVideos.push(data)
+    console.log(selectedCategory);
+    // make api call to update Category
+    await updateCategory(CategoryId,selectedCategory)
+    getCategory()
+  }
 
   return (
     <>
@@ -46,12 +75,22 @@ function Category() {
         <button onClick={handleShow} className='btn btn-primary'>Add New Category</button>
     </div>
     {
-      allCategories?allCategories?.map((item)=>(
-        <div className='mt-3 ms-3 border rounded p-3'>
-          <div className='d-flex justfy-content-between align-items-center'>
+      allCategories.length>0?allCategories?.map((item)=>(
+        <div className='mt-2 m-5 border rounded p-3' droppable onDragOver={(e)=>dargOver(e)} onDrop={(e)=>videoDrop(e,item?.id)}>
+          <div className='d-flex  align-items-center justify-content-between'>
             <h6>{item?.CategoryName}</h6>
-            <button className='btn'><i className='fa-solid fa-trash text-danger'></i></button>
+            <button className='btn' onClick={()=>handleDelete(item?.id)}><i className='fa-solid fa-trash text-danger'></i></button>
           </div>
+          <Row>
+            {
+              item?.allVideos && 
+              item?.allVideos.map(card=>(
+                <Col sm={12}>
+                  <VideoCard displayData={card}/>
+                </Col>
+              ))
+            }
+          </Row>
         </div>
       )):<p className='fw-bolder fs-5 text-danger'>Nothing to Display!!!!!</p>
     }

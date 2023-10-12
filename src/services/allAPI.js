@@ -52,3 +52,8 @@ export const deleteCategory = async (id)=>{
     // make a get http request to http://localhost:4000/categories to get a video from json server and return response to categories component
     return await commomAPI("DELETE",`${serverURL}/categories/${id}`,{})
 } 
+// upadate category
+export const updateCategory = async (id,body)=>{
+    // make a get http request to http://localhost:4000/categories to PUT a video from json server and return response to categories component
+    return await commomAPI("PUT",`${serverURL}/categories/${id}`,body)
+} 

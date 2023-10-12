@@ -26,9 +26,14 @@ function VideoCard({displayData,setdeleteVideoStatus}) {
     setdeleteVideoStatus(true)
   }
 
+  const dragStrated = (e,id)=>{
+    console.log("Drag Started... Video Id:"+id);
+    e.dataTransfer.setData("videoId",id)
+  }
+
   return (
     <>
-    <Card className='m-2'>
+    <Card className='m-2' draggable onDragStart={(e)=>dragStrated(e,displayData?.id)}>
       <Card.Img variant="top" height={'180px'} onClick={handleShow} src={displayData?.url} />
       <Card.Body>
         <Card.Title className='d-flex justify-content-between align-items-center'>
