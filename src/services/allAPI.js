@@ -33,7 +33,15 @@ export const addToHistory = async (videoDetails)=>{
 export const getAllHistory = async ()=>{
     // make a post http request to http://localhost:4000/history to grt video history form json server and return response to watch History component
     return await commomAPI("GET",`${serverURL}/history`,"")
-} 
+}
+
+// delete History
+export const deleteHistory = async (id)=>{
+    // make a post http request to http://localhost:4000/history to delete video history form json server and return response to watch History component
+    return await commomAPI("DELETE",`${serverURL}/history/${id}`,{})
+}
+
+
 // add Category
 export const addCategory = async (reqBody)=>{
     // make a post http request to http://localhost:4000/categories to add video in json server and return response to categories component
